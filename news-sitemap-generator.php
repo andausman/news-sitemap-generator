@@ -93,7 +93,6 @@ function generate_news_sitemap() {
         $sitemap .= '<news:publication_date>' . escape_html_for_xml(get_the_date('c', $post)) . '</news:publication_date>';
         $sitemap .= '<news:title>' . escape_html_for_xml(get_the_title($post)) . '</news:title>';
 
-        // Remove <news:author> and <news:image> completely as they are not valid in Google News sitemaps
 
         $tags = wp_get_post_tags($post->ID, ['fields' => 'names']);
         if (!empty($tags)) {
@@ -102,7 +101,6 @@ function generate_news_sitemap() {
 
         $sitemap .= '</news:news>';
 
-        // Remove <image:image> block entirely
 
         $sitemap .= '</url>';
     }

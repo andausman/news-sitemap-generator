@@ -4,7 +4,7 @@
  * Description: Generates a News XML sitemap for your News Publication
  * Version: 1.0
  * Author: Anda Usman
- * Author URI: https://profiles.wordpress.org/andausman/
+ * Author URI: https://andausman.com
  * License: GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  */

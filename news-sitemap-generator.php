@@ -102,10 +102,21 @@ function generate_news_sitemap() {
             $sitemap .= '<news:keywords>' . escape_html_for_xml(implode(', ', $tags)) . '</news:keywords>';
         }
 
-        $sitemap .= '<news:genres>Blog</news:genres>';
+        // Add image if post has a featured image
+        $thumbnail_id = get_post_thumbnail_id($post->ID);
+        if ($thumbnail_id) {
+            $image_url = wp_get_attachment_url($thumbnail_id);
+            if ($image_url) {
+                $sitemap .= '<image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
+                $sitemap .= '<image:loc>' . esc_url($image_url) . '</image:loc>';
+                $sitemap .= '</image:image>';
+            }
+        }
+
         $sitemap .= '</news:news>';
         $sitemap .= '</url>';
-    }    $sitemap .= '</urlset>';
+    }
+    $sitemap .= '</urlset>';
 
     $output = ob_get_clean();
     set_transient($cache_key, $sitemap, HOUR_IN_SECONDS);

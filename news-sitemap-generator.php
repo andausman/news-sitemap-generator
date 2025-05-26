@@ -78,7 +78,8 @@ function generate_news_sitemap() {
 
     $sitemap = '<?xml version="1.0" encoding="UTF-8"?>';
     $sitemap .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
-    $sitemap .= 'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">';
+    $sitemap .= 'xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" ';
+    $sitemap .= 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
 
     foreach ($posts as $post) {
         $sitemap .= '<url>';
@@ -92,28 +93,30 @@ function generate_news_sitemap() {
         $sitemap .= '<news:publication_date>' . escape_html_for_xml(get_the_date('c', $post)) . '</news:publication_date>';
         $sitemap .= '<news:title>' . escape_html_for_xml(get_the_title($post)) . '</news:title>';
 
-        $author = get_the_author_meta('display_name', $post->post_author);
-        if ($author) {
-            $sitemap .= '<news:author>' . escape_html_for_xml($author) . '</news:author>';
-        }
+        // Only add <news:author> if required by Google News (not standard in sitemap spec)
+        // $author = get_the_author_meta('display_name', $post->post_author);
+        // if ($author) {
+        //     $sitemap .= '<news:author>' . escape_html_for_xml($author) . '</news:author>';
+        // }
 
         $tags = wp_get_post_tags($post->ID, ['fields' => 'names']);
         if (!empty($tags)) {
             $sitemap .= '<news:keywords>' . escape_html_for_xml(implode(', ', $tags)) . '</news:keywords>';
         }
 
-        // Add image if post has a featured image
+        $sitemap .= '</news:news>';
+
+        // Add image if post has a featured image (must be outside <news:news>)
         $thumbnail_id = get_post_thumbnail_id($post->ID);
         if ($thumbnail_id) {
             $image_url = wp_get_attachment_url($thumbnail_id);
             if ($image_url) {
-                $sitemap .= '<image:image xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">';
+                $sitemap .= '<image:image>';
                 $sitemap .= '<image:loc>' . esc_url($image_url) . '</image:loc>';
                 $sitemap .= '</image:image>';
             }
         }
 
-        $sitemap .= '</news:news>';
         $sitemap .= '</url>';
     }
     $sitemap .= '</urlset>';

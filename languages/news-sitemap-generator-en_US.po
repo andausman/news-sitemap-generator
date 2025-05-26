@@ -1,0 +1,35 @@
+msgid "News Sitemap"
+msgstr "News Sitemap"
+
+msgid "Publication Name"
+msgstr "Publication Name"
+
+msgid "Enable Google News Ping"
+msgstr "Enable Google News Ping"
+
+msgid "Limit to Category (optional)"
+msgstr "Limit to Category (optional)"
+
+msgid "Regenerate Sitemap"
+msgstr "Regenerate Sitemap"
+
+msgid "Clear Ping Log"
+msgstr "Clear Ping Log"
+
+msgid "View News Sitemap"
+msgstr "View News Sitemap"
+
+msgid "Ping log cleared."
+msgstr "Ping log cleared."
+
+msgid "News sitemap regenerated successfully."
+msgstr "News sitemap regenerated successfully."
+
+msgid "No log yet."
+msgstr "No log yet."
+
+msgid "Sitemap"
+msgstr "Sitemap"
+
+msgid "Ping Log"
+msgstr "Ping Log"

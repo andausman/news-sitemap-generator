@@ -36,8 +36,8 @@ Go to Settings > News Sitemap and update the Publication Name field.
 First public release.
 
 == Screenshots ==
-1. News Sitemap settings page
-2. Example XML output
+1. News Sitemap settings page (assets/screenshot-1.png)
+2. Example XML output (assets/screenshot-2.png)
 
 == License ==
 This plugin is free software, released under the GPLv2 or later.

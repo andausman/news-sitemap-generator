@@ -57,6 +57,12 @@ function generate_news_sitemap() {
         'posts_per_page' => 1000,
         'orderby'        => 'date',
         'order'          => 'DESC',
+        'date_query'     => [
+            [
+                'after' => '48 hours ago',
+                'inclusive' => true,
+            ],
+        ],
     ];
 
     if ($selected_category && $selected_category !== 'all') {

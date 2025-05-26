@@ -16,7 +16,7 @@ function escape_html_for_xml($string) {
 
 // Load plugin textdomain for translations
 add_action('plugins_loaded', function() {
-    load_plugin_textdomain('news-sitemap', false, dirname(plugin_basename(__FILE__)) . '/languages');
+    load_plugin_textdomain('news-sitemap-generator', false, dirname(plugin_basename(__FILE__)) . '/languages');
 });
 
 // ------------------------
@@ -123,16 +123,16 @@ add_action('publish_post', function ($post_id) {
 // 5. Plugin Settings Page
 // ------------------------
 add_action('admin_menu', function () {
-    add_options_page(__('News Sitemap', 'news-sitemap'), __('News Sitemap', 'news-sitemap'), 'manage_options', 'news-sitemap', 'news_sitemap_settings_page');
+    add_options_page(__('News Sitemap', 'news-sitemap-generator'), __('News Sitemap', 'news-sitemap-generator'), 'manage_options', 'news-sitemap', 'news_sitemap_settings_page');
 });
 
 function news_sitemap_settings_page() {
     $ping_log = ABSPATH . '/news-sitemap-ping.log';
-    $log_output = file_exists($ping_log) ? nl2br(esc_html(file_get_contents($ping_log))) : __('No log yet.', 'news-sitemap');
+    $log_output = file_exists($ping_log) ? nl2br(esc_html(file_get_contents($ping_log))) : __('No log yet.', 'news-sitemap-generator');
     $sitemap_slug = 'newsfeed.xml';
     ?>
     <div class="wrap">
-        <h1><?php _e('News Sitemap', 'news-sitemap'); ?></h1>
+        <h1><?php _e('News Sitemap', 'news-sitemap-generator'); ?></h1>
         <form method="post" action="options.php">
             <?php
             settings_fields('news_sitemap_settings');
@@ -141,14 +141,14 @@ function news_sitemap_settings_page() {
             ?>
         </form>
         <form method="post">
-            <?php submit_button(__('Regenerate Sitemap', 'news-sitemap'), 'secondary', 'regenerate_news_sitemap'); ?>
+            <?php submit_button(__('Regenerate Sitemap', 'news-sitemap-generator'), 'secondary', 'regenerate_news_sitemap'); ?>
         </form>
         <form method="post">
-            <?php submit_button(__('Clear Ping Log', 'news-sitemap'), 'delete', 'clear_ping_log'); ?>
+            <?php submit_button(__('Clear Ping Log', 'news-sitemap-generator'), 'delete', 'clear_ping_log'); ?>
         </form>
-        <h2><?php _e('Sitemap', 'news-sitemap'); ?></h2>
-        <p><a href="<?php echo esc_url(home_url("/$sitemap_slug")); ?>" target="_blank"><?php _e('View News Sitemap', 'news-sitemap'); ?></a></p>
-        <h2><?php _e('Ping Log', 'news-sitemap'); ?></h2>
+        <h2><?php _e('Sitemap', 'news-sitemap-generator'); ?></h2>
+        <p><a href="<?php echo esc_url(home_url("/$sitemap_slug")); ?>" target="_blank"><?php _e('View News Sitemap', 'news-sitemap-generator'); ?></a></p>
+        <h2><?php _e('Ping Log', 'news-sitemap-generator'); ?></h2>
         <div style="background:#f9f9f9; padding:1em; border:1px solid #ccc; max-height:300px; overflow:auto;">
             <?php echo $log_output; ?>
         </div>
@@ -165,7 +165,7 @@ add_action('admin_init', function () {
 
     add_settings_field(
         'news_sitemap_publication_name',
-        __('Publication Name', 'news-sitemap'),
+        __('Publication Name', 'news-sitemap-generator'),
         function () {
             $value = esc_attr(get_option('news_sitemap_publication_name', get_bloginfo('name')));
             echo "<input type='text' name='news_sitemap_publication_name' value='$value' class='regular-text' />";
@@ -176,7 +176,7 @@ add_action('admin_init', function () {
 
     add_settings_field(
         'news_sitemap_enable_ping',
-        __('Enable Google News Ping', 'news-sitemap'),
+        __('Enable Google News Ping', 'news-sitemap-generator'),
         function () {
             $checked = checked(get_option('news_sitemap_enable_ping', true), true, false);
             echo "<input type='checkbox' name='news_sitemap_enable_ping' value='1' $checked />";
@@ -187,12 +187,12 @@ add_action('admin_init', function () {
 
     add_settings_field(
         'news_sitemap_category_filter',
-        __('Limit to Category (optional)', 'news-sitemap'),
+        __('Limit to Category (optional)', 'news-sitemap-generator'),
         function () {
             $selected = get_option('news_sitemap_category_filter');
             $categories = get_categories(['hide_empty' => false]);
             echo "<select name='news_sitemap_category_filter'>";
-            echo "<option value='all'" . selected($selected, 'all', false) . ">" . __('All Categories', 'news-sitemap') . "</option>";
+            echo "<option value='all'" . selected($selected, 'all', false) . ">" . __('All Categories', 'news-sitemap-generator') . "</option>";
             foreach ($categories as $cat) {
                 echo "<option value='{$cat->slug}'" . selected($selected, $cat->slug, false) . ">" . esc_html($cat->name) . "</option>";
             }
@@ -208,7 +208,7 @@ add_action('admin_init', function () {
             unlink($log_file);
         }
         add_action('admin_notices', function () {
-            echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html(__('Ping log cleared.', 'news-sitemap')) . '</p></div>';
+            echo '<div class="notice notice-warning is-dismissible"><p>' . esc_html(__('Ping log cleared.', 'news-sitemap-generator')) . '</p></div>';
         });
     }
 });
@@ -233,7 +233,7 @@ add_action('admin_init', function () {
         delete_transient($cache_key);
         wp_remote_get(home_url('/newsfeed.xml'));
         add_action('admin_notices', function () {
-            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html(__('News sitemap regenerated successfully.', 'news-sitemap')) . '</p></div>';
+            echo '<div class="notice notice-success is-dismissible"><p>' . esc_html(__('News sitemap regenerated successfully.', 'news-sitemap-generator')) . '</p></div>';
         });
     }
 });
